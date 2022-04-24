@@ -1,71 +1,96 @@
-class heap:
+"""Implementation of heap.
+
+  Typical usage example:
+    myHeap = Heap()
+    myHeap.push(1)
+    val = myHeap.get_top()
+    val = myHeap.pop()
+"""
+
+
+class Heap:
+    """Heap class
+
+    Attributes:
+        is_min_heap: A boolean indicating if we use minHeap or maxHeap.
+
+    Methods:
+        push()
+        pop()
+        get_top()
+    """
 
     def __init__(self, is_min_heap: bool = True):
-        self.h = []
+        self.heap = []
         self.__inverse = is_min_heap
 
-    def __comp(self, a: int, b: int) -> bool:
-        return (a < b) ^ self.__inverse
+    def __comp(self, first: int, second: int) -> bool:
+        return (first < second) ^ self.__inverse
 
     def __upheap(self) -> None:
-        cur_pos = len(self.h)-1
-        last_val = self.h[cur_pos]
-        while(cur_pos > 0):
+        cur_pos = len(self.heap)-1
+        last_val = self.heap[cur_pos]
+        while cur_pos > 0:
             parent_pos = (cur_pos - 1) // 2
-            if (self.__comp(self.h[parent_pos], last_val)):
-                self.h[cur_pos] = self.h[parent_pos]
+            if self.__comp(self.heap[parent_pos], last_val):
+                self.heap[cur_pos] = self.heap[parent_pos]
                 cur_pos = parent_pos
             else:
                 break
-        self.h[cur_pos] = last_val
+        self.heap[cur_pos] = last_val
 
     def __downheap(self) -> None:
         cur_pos = 0
-        first_val = self.h[cur_pos]
+        first_val = self.heap[cur_pos]
 
-        while(cur_pos*2 + 1 < len(self.h)):
+        while cur_pos*2 + 1 < len(self.heap):
             left_pos = cur_pos*2 + 1
             right_pos = cur_pos*2 + 2
 
-            left_val = self.h[left_pos]
-            right_val = self.h[right_pos] if right_pos < len(self.h) else None
+            left_val = self.heap[left_pos]
+            right_val = self.heap[right_pos] if right_pos < len(
+                self.heap) else None
 
-            if (right_val != None):
+            if right_val is not None:
                 if (not self.__comp(first_val, left_val) and not self.__comp(first_val, right_val)):
                     break
-                elif (self.__comp(left_val, right_val)):
-                    self.h[cur_pos] = right_val
+
+                if self.__comp(left_val, right_val):
+                    self.heap[cur_pos] = right_val
                     cur_pos = right_pos
                 else:
-                    self.h[cur_pos] = left_val
+                    self.heap[cur_pos] = left_val
                     cur_pos = left_pos
             else:
-                if (not self.__comp(first_val, left_val)):
+                if not self.__comp(first_val, left_val):
                     break
-                else:
-                    self.h[cur_pos] = left_val
-                    cur_pos = left_pos
 
-        self.h[cur_pos] = first_val
+                self.heap[cur_pos] = left_val
+                cur_pos = left_pos
+
+        self.heap[cur_pos] = first_val
 
     def push(self, item: int) -> None:
-        self.h.append(item)
+        """Push an item into heap"""
+        self.heap.append(item)
         self.__upheap()
 
     def pop(self) -> int:
-        if (len(self.h) == 0):
+        """Pop an item from the top"""
+        if len(self.heap) == 0:
             raise Exception("Cannot pop from an empty heap!")
 
-        val = self.h.pop(0)
+        val = self.heap.pop(0)
 
-        if (len(self.h) != 0):
-            self.h.insert(0, self.h.pop())
+        if len(self.heap) != 0:
+            self.heap.insert(0, self.heap.pop())
             self.__downheap()
 
         return val
 
     def get_top(self) -> int:
-        if (len(self.h) == 0):
+        """Get the top item of the heap"""
+        if len(self.heap) == 0:
             raise Exception("Cannot get top item from an empty heap!")
 
-        return self.h[0]
+        return self.heap[0]
