@@ -33,4 +33,4 @@ class TestHeapClass(unittest.TestCase):
             h.push(i)
 
         for i in range(len(self.test_num_descending)):
-            self.assertEqual(h.pop(), self.test_num_ascending[i])
+            self.assertEqual(h.pop(), self.test_num_descending[i])
