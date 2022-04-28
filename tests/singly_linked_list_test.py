@@ -59,6 +59,17 @@ class TestSinglyLinkedListClass(unittest.TestCase):
 
         self.assertEqual(sll.length, 0)
 
+    def test_correctness_of_pop_with_specific_index(self):
+        """Test correctness of pop with specific index"""
+        sll = SinglyLinkedList()
+
+        for val in self.test_num:
+            sll.append(val)
+
+        self.assertEqual(sll.pop(1), self.test_num[0])
+        self.assertEqual(sll.pop(2), self.test_num[2])
+        self.assertEqual(sll.length, len(self.test_num)-2)
+
     def test_iterator_of_singly_linked_list(self):
         """Test iterator of singly linked list"""
         sll = SinglyLinkedList()
