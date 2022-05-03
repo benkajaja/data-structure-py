@@ -6,6 +6,7 @@
     dll.prepend()
     val = dll.pop(1)
     for node in dll: print(node.val)
+    print(dll)
 """
 
 
@@ -33,6 +34,7 @@ class DoublyLinkedList:
         pop()
 
     Iterator
+    Repr, Str
     """
 
     def __init__(self) -> None:
@@ -98,3 +100,15 @@ class DoublyLinkedList:
             raise StopIteration
 
         return self.__iter_idx
+
+    def __str__(self) -> str:
+        res = ""
+        ptr = self.head.next_node
+        while ptr:
+            res = f'{res}{ptr.val} -> '
+            ptr = ptr.next_node
+        res = f'{res}None'
+        return res
+
+    def __repr__(self) -> str:
+        return self.__str__()

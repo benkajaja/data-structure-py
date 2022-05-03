@@ -89,3 +89,15 @@ class TestDoublyLinkedListClass(unittest.TestCase):
 
         for i, node in enumerate(dll):
             self.assertEqual(node.val, self.test_num[i % len(self.test_num)])
+
+    def test_string_repr_of_doubly_linked_list(self):
+        """Test string repr of doubly linked list"""
+        dll = DoublyLinkedList()
+
+        self.assertEqual(str(dll), "None")
+
+        for val in self.test_num:
+            dll.append(val)
+
+        self.assertEqual(
+            str(dll), " -> ".join([str(n) for n in self.test_num]) + " -> None")
